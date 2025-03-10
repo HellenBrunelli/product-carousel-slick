@@ -1,0 +1,60 @@
+<template>
+    <div class="carousel-container">
+        <h3 class="carousel-title red-line-title">{title}</h3>
+        <p if:true={subtitle} class="carousel-subtitle">{subtitle}</p>
+        <div class="carousel-wrapper">
+            <div class="slick-carousel">
+
+                <template if:true={isProducts}>
+                    <template for:each={apis} for:item="api">
+                        <div key={api.id} class="product-tile">
+                            <div class="product-card">
+                                <img src={api.imageURL} alt={api.name} class="product-image" />
+                                <div class="product-details">
+                                    <h5 class="product-name">{api.name}</h5>
+                                    <p class="product-desc">{api.description}</p>
+                                    <div class="product-price">
+                                        <template if:true={api.showAllPrices}>
+                                            <span class="old-price">R$ {api.higherPrice}</span>
+    
+    
+                                            <lightning-formatted-number format-style="currency" currency-code="BRL">{api.higherPrice}</lightning-formatted-number>
+                                        </template>
+                                        <div class="price-details">
+                                            <span class="new-price">R$ {api.lowerPrice}</span>
+                                            <template if:true={api.showAllPrices}>
+                                                <span if:true={api.discount} class="discount-percent">{api.discount}</span>
+                                            </template>
+                                            <span if:true={api.state} class="state">{api.state}</span>
+                                        </div>
+                                    </div>
+                                    <button class="product-button">Quero utilizar essa API</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <template if:true={categories}>
+                    <template for:each={categories} for:item="category">
+                        <div key={category.Id} class="product-tile">
+                            <div class="product-card">
+                                <img src={category.ImageUrl} alt={category.Name} class="product-image" />
+                                <div class="product-details">
+                                    <h5 class="product-name">{category.Name}</h5>
+                                    <p class="product-desc">{category.Description}</p>
+                    
+                                    <button onclick={navigateToCategory} data-categoryid={category.Id} class="product-button">Quero saber mais sobre API</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+            </div>
+        </div>
+    </div>
+    <div if:true={isLoading} class="backgroundInverse">
+        <lightning-spinner alternative-text="Loading" variant="inverse"></lightning-spinner>
+    </div>
+</template>
